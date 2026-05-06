@@ -15,9 +15,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-/**
- * A {@link WebCrawler} that downloads and processes one page at a time.
- */
 final class SequentialWebCrawler implements WebCrawler {
 
   private final Clock clock;

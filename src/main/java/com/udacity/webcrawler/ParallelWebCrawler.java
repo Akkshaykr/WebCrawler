@@ -20,10 +20,7 @@ import java.time.Instant;
 import java.util.concurrent.ForkJoinPool;
 
 
-/**
- * A concrete implementation of {@link WebCrawler} that runs multiple threads on a
- * {@link ForkJoinPool} to fetch and process multiple web pages in parallel.
- */
+
 final class ParallelWebCrawler implements WebCrawler {
   private final Clock clock;
   private final Duration timeout;
