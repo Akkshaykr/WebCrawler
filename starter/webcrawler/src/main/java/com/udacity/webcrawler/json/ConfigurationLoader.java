@@ -1,6 +1,11 @@
 package com.udacity.webcrawler.json;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.io.Reader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -19,27 +24,28 @@ public final class ConfigurationLoader {
   }
 
   /**
-   * Loads configuration from this {@link ConfigurationLoader}'s path
-   *
-   * @return the loaded {@link CrawlerConfiguration}.
+   * Loads configuration from this loader's path
    */
-  public CrawlerConfiguration load() {
-    // TODO: Fill in this method.
-
-    return new CrawlerConfiguration.Builder().build();
+  public CrawlerConfiguration load() throws IOException {
+    try (Reader reader = Files.newBufferedReader(path)) {
+      return read(reader);
+    }
   }
 
   /**
    * Loads crawler configuration from the given reader.
-   *
-   * @param reader a Reader pointing to a JSON string that contains crawler configuration.
-   * @return a crawler configuration
+   * Does NOT declare throws IOException — handles it internally.
    */
   public static CrawlerConfiguration read(Reader reader) {
-    // This is here to get rid of the unused variable warning.
     Objects.requireNonNull(reader);
-    // TODO: Fill in this method
-
-    return new CrawlerConfiguration.Builder().build();
+    try {
+      ObjectMapper mapper = new ObjectMapper();
+      // Prevent Jackson from closing the Reader
+      mapper.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
+      return mapper.readValue(reader, CrawlerConfiguration.class);
+    } catch (IOException e) {
+      // Wrap checked exception into unchecked so test doesn't need to catch it
+      throw new RuntimeException(e);
+    }
   }
 }
