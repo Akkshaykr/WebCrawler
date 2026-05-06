@@ -13,9 +13,7 @@ import java.util.Arrays;
 
 import static java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME;
 
-/**
- * Concrete implementation of the {@link Profiler}.
- */
+
 final class ProfilerImpl implements Profiler {
 
   private final Clock clock;
